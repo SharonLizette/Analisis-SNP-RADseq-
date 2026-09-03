@@ -3,7 +3,7 @@ Este repositorio contiene un pipeline diseñado para el procesamiento y análisi
 
 ## Pipeline para el procesamiento de datos de RADseq
  
-A continuación se describen los pasos a seguir desde la obtención de datos crudos pair-end de NovaSeq hasta la construcción de la matriz final de SNPs en formato .vcf. 
+A continuación se describen los pasos a seguir desde la obtención de datos crudos single-end de HiSeq hasta la construcción de la matriz final de SNPs en formato .vcf. (utilizado por la mayoría de los programas)
 Este tutorial incluye el acceso al servidor de genética y el trabajo con scripts de R en la computadora personal. 
 
 El objetivo es exponer una guía con los pasos necesarios para que los estudiantes (con conocimeintos básicos de bash) sean capaces de procesar sus datos y garantizar su reproducibilidad.
@@ -11,6 +11,7 @@ El objetivo es exponer una guía con los pasos necesarios para que los estudiant
 **Programas empleados en bash**
 - FastQC
 - Trimmomatic
+- Fastp (En caso de no encontrar algún filtro en Trimmomatic)
 - ipyrad
 - VCFtools
 ---
