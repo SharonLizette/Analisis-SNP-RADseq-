@@ -65,7 +65,9 @@ Jugar con los parámetros para determinar que filtros me dejan la mayor cantidad
 En home/usuario, crear la carpeta 02.trimmomatic donde se guardaràn los resultados de la corrida
 
 # Para cada muestra single-end de manera independiente
+
 `trimmomatic SE muestra.fastq  muestra_trim.fastq   ILLUMINACLIP:TruSeq3-SE.fa:2:30:10`
+SE - single end, importante especificarselo al programa.
 
 Colocarse en home/usuario
 # Loop para Trimmomatic con single end (SE)
