@@ -22,6 +22,8 @@ En mi computadora, agrupar todos los datos crudos (R1 y R2) en una carperta deno
 En la terminal local colocar la siguiente instrucción:
 /scp sirve para copiar cosas de mi cp al servidor y viceversa/
 `scp -r -P 1967 Desktop/NGS/00.RawData/* massiel.alfonsoglez@132.248.15.41:/home/usuario/curso/00.RawData`
+Comando para descomprimir
+`tar -xzvf rad_curso.tar.gz`
 
 La carpeta 00.RawData debió ser creada previamente en el usuario del servidor
 
@@ -52,10 +54,11 @@ Entrar a la carpeta _01.FastQC_crudos_ y mover los .html y los .zip
 `mv /home/usuario/curso/00.RawData/*.zip .`
 
 Mover los archivos.html del servidor a la computadora local para poder visualizarlos
-
+Hacerlo desde la terminal del cp, no desde la del servidor
 `scp -r -P 1967 usuario@132.248.15.41:/home/usuario/curso/01.FastQC_crudos/*fastqc.html /home/Usuario/Desktop/NGS/01.FastQC_crudos`
 
 Abrir los .html, visualizar la calidad y definir los parámetros de limpieza.
+Jugar con los parámetros para determinar que filtros me dejan la mayor cantidad de lecturas de la mejor calidad posible.
 
 ### 4. Limpieza de datos en [Trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic)
 
