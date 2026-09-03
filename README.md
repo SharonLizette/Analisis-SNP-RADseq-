@@ -20,7 +20,7 @@ El objetivo es exponer una guía con los pasos necesarios para que los estudiant
 En mi computadora, agrupar todos los datos crudos (R1 y R2) en una carperta denominada _00.RawData_
 
 En la terminal local colocar la siguiente instrucción:
-
+/scp sirve para copiar cosas de mi cp al servidor y viceversa/
 `scp -r -P 1967 Desktop/NGS/00.RawData/* massiel.alfonsoglez@132.248.15.41:/home/usuario/curso/00.RawData`
 
 La carpeta 00.RawData debió ser creada previamente en el usuario del servidor
