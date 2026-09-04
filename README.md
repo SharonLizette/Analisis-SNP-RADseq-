@@ -138,19 +138,22 @@ Crear el archivo de parámetros que emplea ipyrad. Colocar un nombre informativo
 - [5] [assembly_method]: Assembly method (denovo, reference, etc)
 - [7] [datatype]: Datatype (see docs): rad, gbs, ddrad, etc. _pair3rad_
 - [8] [restriction_overhang] _colocar el sitio de corte de mis enzimas: AATTC, CTAGC, CTAGA (para EcoR1, Xba y NheI)_
-- [14] [clust_threshold]: Clustering threshold for de novo assembly. _Colocar el umbral de similitud para la creación de clusters (en este ejemplo 0.90)_
-- [21] [min_samples_locus]: Min # samples per locus for output. _Depende del tamaño de muestra y cuanto missing data acaptaré (ej. si tengo 60 muestras y solo aceptaré el 90% de missing data, en esta casilla debo colocar 54)_
+- [14] [clust_threshold]: Clustering threshold for de novo assembly. _Colocar el umbral de similitud para la creación de clusters (en este ejemplo 0.90) _Cual es el nivel de similitud que deben tener para ser considerados un locus_
+- [21] [min_samples_locus]: Min # samples per locus for output. _Depende del tamaño de muestra y cuanto missing data acaptaré (ej. si tengo 60 muestras y solo aceptaré el 90% de missing data, en esta casilla debo colocar 54)_ 
 - [22] [max_SNPs_locus]: Número máximo de SNPs por locus. _0.1 = 10%_
 - [27] [output_formats]: Output formats (see docs). Colocar * para que genere todos los formatos posibles.
 
 Una vez fijados los parámetros de la corrida modificando el params-U90M90, ya se puede correr ipyrad
 
 `nohup ipyrad -p params-U90M90.txt -s 1234567 -c 24 -f --MPI > output.txt &` 
+_Llamas el programa y le dices que lea el archivo de texto con los parámetros y escoger que pasos correr, que utilice 24 núcleos que es con lo que trabaja este servidor, f borra si hay otra corrida previa, MPI es corridas en paralelo para que no tarde tanto. output.txt es un archivo que me permite monitorear como va el programa para que pueda seguir utilizando mi terminal_ 
+El programa sigue corriendo por un día aprox. aunque me desconecte del servidor
 
 Dependiendo de la catidad de datos, la corrida puede ser lenta. Recomiendo utilizar _nohup_ para ir monitoreándola. 
 
 Una vez culminada la corrida, verificar los resultados guardados en la carpeta _U90M90_outfiles_, archivo _U90M90_stats.txt_. 
 El archivo **_U90M90.vcf_** va a contener la matriz de SNPs.
+_Va a contener el número de SNPs para mi cantidad de individuos_
 
 ### 7. Filtrado adicional con VCFtools
 Crear la carpeta _VCFtools_ en /home/usuario
@@ -164,14 +167,15 @@ Las opciones de filtrado en VCFtools pueden ser visualizadas con el comando `man
 Objetivo: eliminar alelos con frecuencia menor al 4%, retener _loci_ bialelélicos con profundidad mayor a 10 y máximo 10% de _missing data_.
 
 `vcftools --vcf U90M90.vcf --maf 0.04 --min-meanDP 10 --min-alleles 2 --max-alleles 2 --max-missing 0.9 --recode --out U90M90_maf0.04_DP10_MD0.9`
-
+_maf: n de alelos presentes en un solo individuo, para eliminar errores de secuenciación.
+meanDP: profundidad_
 
 **set de datos 2, análisis de estructura y diversidad**
 
 Objetivo: A la salida anterior, aplicarle el filtro de desequilibrio de ligamiento.
 
 `vcftools --vcf U90M90_maf0.04_DP10_MD0.9.vcf --thin 1000 --recode --out U90M90_maf0.04_DP10_DL.vcf`
-
+_filtro de para evitar el ligamiento estructural, este no se aplica en el set de selección porque en selección si puede haber genes ligados y no es ruido al contrario_
  
 Para ambos sets de datos, visualizar el archivo.log para ver cuantos sitios se mantienen luego del filtrado.
 
