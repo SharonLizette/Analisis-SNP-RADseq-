@@ -17,19 +17,19 @@ El objetivo es exponer una guía con los pasos necesarios para que los estudiant
 ---
 
 ### 1. Subir archivos .fastq.gz al servidor
-En mi computadora, agrupar todos los datos crudos (R1 y R2) en una carperta denominada _00.RawData_
+En mi computadora, agrupar todos los datos crudos (R1 y R2) en una carperta denominada _01.DataReady_
 
 En la terminal local colocar la siguiente instrucción:
 /scp sirve para copiar cosas de mi cp al servidor y viceversa/
-`scp -r -P 1967 Desktop/NGS/00.RawData/* massiel.alfonsoglez@132.248.15.41:/home/usuario/curso/00.RawData`
+`$ scp -r -P 1967 sharon@132.248.15.41:/home/sharon/01.FastQC_crudos/*fastqc.html C:/Users/sharo/Desktop`
 Comando para descomprimir
 `tar -xzvf rad_curso.tar.gz`
 
-La carpeta 00.RawData debió ser creada previamente en el usuario del servidor
+La carpeta 01.DataReady debió ser creada previamente en el usuario del servidor
 
 ### 1.1 Copiar los archivos de otro usuario del servidor
-Crear la carpeta 00.RawData y colocarse en ella
-`cp /home/massiel.alfonsoglez/curso/* .`
+Crear la carpeta 01.DataReady y colocarse en ella
+`cp /home/sharon/* .`
 
 ### 1.2 Visualizar un archivo fastq
 `head archivo.fastq`
@@ -37,9 +37,9 @@ Crear la carpeta 00.RawData y colocarse en ella
 
 ### 2. Conectarse al servidor
 
-`ssh usuario@132.248.15.41 -p 1967 -o ServerAliveInterval=60`
+`ssh sharon@132.248.15.41 -p 1967 -o ServerAliveInterval=60`
 
-Dentro de la carperta _00.RawData_, verificar la cantidad de secuencias subidas
+Dentro de la carperta _01.DataReady_, verificar la cantidad de secuencias subidas
 `ls | wc -l`
 
 ### 3. Visualizar la calidad de los datos crudos con FastQC
@@ -47,15 +47,15 @@ Dentro de la carperta _00.RawData_, verificar la cantidad de secuencias subidas
 
 Como resultado se van a generar archivos .html y .zip. 
 
-Para mantener el orden, crear una nueva carpeta denominada _01.FastQC_crudos_ en /home/usuario/
+Para mantener el orden, crear una nueva carpeta denominada _02.FastQC_crudos_ en /home/usuario/
  
 Entrar a la carpeta _01.FastQC_crudos_ y mover los .html y los .zip 
-`mv /home/usuario/curso/00.RawData/*.html .`
-`mv /home/usuario/curso/00.RawData/*.zip .`
+`mv /home/usuario/curso/01.DataReady/*.html .`
+`mv /home/usuario/curso/01.DataReady/*.zip .`
 
 Mover los archivos.html del servidor a la computadora local para poder visualizarlos
 Hacerlo desde la terminal del cp, no desde la del servidor
-`scp -r -P 1967 usuario@132.248.15.41:/home/usuario/curso/01.FastQC_crudos/*fastqc.html /home/Usuario/Desktop/NGS/01.FastQC_crudos`
+`$ scp -r -P 1967 sharon@132.248.15.41:/home/sharon/01.FastQC_crudos/*fastqc.html C:/Users/sharo/Desktop`
 
 Abrir los .html, visualizar la calidad y definir los parámetros de limpieza.
 Jugar con los parámetros para determinar que filtros me dejan la mayor cantidad de lecturas de la mejor calidad posible.
