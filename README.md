@@ -62,21 +62,13 @@ Jugar con los parámetros para determinar que filtros me dejan la mayor cantidad
 
 ### 4. Limpieza de datos en [Trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic)
 
-En home/usuario, crear la carpeta 02.trimmomatic donde se guardaràn los resultados de la corrida
+En home/usuario, crear la carpeta _03.Trimmomatic_ donde se guardaràn los resultados de la corrida
 
-# Para cada muestra single-end de manera independiente
-
-`trimmomatic SE muestra.fastq  muestra_trim.fastq   ILLUMINACLIP:TruSeq3-SE.fa:2:30:10`
-SE - single end, importante especificarselo al programa.
-
-Colocarse en home/usuario
-# Loop para Trimmomatic con single end (SE)
-`for i in 00.rawdata/*.fastq; do     filename=$(basename "$i");     trimmomatic SE -phred33         "$i"         "02.trimmomatic/trimm_$filename"         HEADCROP:7                SLIDINGWINDOW:5:15         MINLEN:150; done`
-
-
-# Para cada muestra pair-end de manera independiente
-`java -jar /opt/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 10 -phred33 -trimlog BK01triminfo.txt BK01_S95_L001_R1_001.fastq.gz BK01_S95_L001_R2_001.fastq.gz BK01_R1_trimm.fastq.gz BK01_R1_unpair.fastq BK01_R2_trimm.fastq.gz BK01_R2_unpair.fastq ILLUMINACLIP:/opt/Trimmomatic-0.39/adapters/TruSeq2-PE.fa:2:8:10:8:True HEADCROP:14 SLIDINGWINDOW:5:15 MINLEN:110`
-
+# Prueba filtros Trimmomatic con una sola muestra pair-end
+Colocarse dentro de la carpeta 03.Trimmomatic para que ahí sea la dirección de salida de los nuevos archivos.
+` trimmomatic PE -threads 8 -phred33 -trimlog SduCas01_triminfo.txt /home/sharon/01.DataReady/SduCas01_R1.fastq.gz /home/sharon/01.DataReady/SduCas01_R2.fastq.gz \SduCas01_R1_trimm.fastq.gz \SduCas01_R1_unpair.fastq.gz \SduCas01_R2_trimm.fastq.gz \SduCas01_R2_unpair.fastq.gz ILLUMINACLIP:/home/bio/bin/Trimmomatic/adapters/TruSeq3-PE-2.fa:2:30:10 HEADCROP:14 SLIDINGWINDOW:5:20 MINLEN:130
+`
+PE - single end, importante especificarselo al programa.
 
 # Loop para Trimmomatic con pair-end (PE). Para más información consulta [aquí](https://hoytpr.github.io/bioinformatics-semester/materials/loop-extra/)
 
@@ -89,28 +81,23 @@ done
 
 Se van a generar archivos con terminación _trim.fastq.gz_ (son los de interés) y _un_trim.fastq.gz_ (son reads no pareados, no son de interés para los análisis posteriores).
 
-Para mantener el orden, crear una nueva carpeta  denominada _02.Trimmomatic_ en /home/usuario/
-
-Entrar a la carpeta _02.Trimmomatic_ y mover los _trim.fastq.gz_ y los _un_trim.fastq.gz_
-`mv /home/usuario/curso/00.RawData/*.trim.fastq.gz .`
-`mv /home/usuario/curso/00.RawData/*.un_trim.fastq.gz .`
-
 ### 5. Visualizar la calidad de los datos limpios con FastQC
 
 `fastqc *trim.fastq.gz`
 
 Nuevamente, se generan archivos .html y .zip
 
-Para mantener el orden, crear una nueva carpeta denominada _03.FastQC_limpios_ en /home/usuario/
+Para mantener el orden, crear una nueva carpeta denominada _04.FastQC_limpios_ en /home/usuario/
  
 Entrar a la carpeta _03.FastQC_limpios_ y mover los .html y los .zip 
 
-`mv /home/usuario/curso/02.Trimmomatic/*.html .`
-`mv /home/usuario/curso/02.Trimmomatic/*.zip .`
+`mv /home/usuario/curso/03.Trimmomatic/*.html .`
+`mv /home/usuario/curso/03.Trimmomatic/*.zip .`
 
 Mover los archivos.html del servidor a la computadora local para poder visualizarlos
 
-`scp -r -P 1967 usuario@132.248.15.41:/bhome/usuario/curso/03.FastQC_limpios/*.html /home/Usuario/Desktop/NGS/03.FastQC_limpios`
+` scp -r -P 1967 sharon@132.248.15.41:/home/sharon/04.FastQC_limpios/*fastqc.html C:/Users/sharo/Desktop
+`
 
 Abrir los .html y verificar si mejoró la calidad. En caso de no mejorar, repetir a partir del paso 4, definiendo nuevos parámetros de limpieza.
 
