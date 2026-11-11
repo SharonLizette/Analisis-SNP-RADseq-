@@ -89,7 +89,7 @@ PE - single end, importante especificarselo al programa.
     HEADCROP:14 \
     SLIDINGWINDOW:5:25 \
     MINLEN:130 ;
-`done`
+    done`
 
 Se van a generar archivos con terminación _trim.fastq.gz_ (son los de interés) y _un_trim.fastq.gz_ (son reads no pareados, no son de interés para los análisis posteriores).
 
