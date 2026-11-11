@@ -50,8 +50,8 @@ Como resultado se van a generar archivos .html y .zip.
 Para mantener el orden, crear una nueva carpeta denominada _02.FastQC_crudos_ en /home/usuario/
  
 Entrar a la carpeta _01.FastQC_crudos_ y mover los .html y los .zip 
-`mv /home/usuario/curso/01.DataReady/*.html .`
-`mv /home/usuario/curso/01.DataReady/*.zip .`
+`mv /home/sharon/01.DataReady/*.html .`
+`mv /home/sharon/01.DataReady/*.zip .`
 
 Mover los archivos.html del servidor a la computadora local para poder visualizarlos
 Hacerlo desde la terminal del cp, no desde la del servidor
@@ -65,34 +65,45 @@ Jugar con los parámetros para determinar que filtros me dejan la mayor cantidad
 En home/usuario, crear la carpeta _03.Trimmomatic_ donde se guardaràn los resultados de la corrida
 
 # Prueba filtros Trimmomatic con una sola muestra pair-end
-Colocarse dentro de la carpeta 03.Trimmomatic para que ahí sea la dirección de salida de los nuevos archivos.
-` trimmomatic PE -threads 8 -phred33 -trimlog SduCas01_triminfo.txt /home/sharon/01.DataReady/SduCas01_R1.fastq.gz /home/sharon/01.DataReady/SduCas01_R2.fastq.gz \SduCas01_R1_trimm.fastq.gz \SduCas01_R1_unpair.fastq.gz \SduCas01_R2_trimm.fastq.gz \SduCas01_R2_unpair.fastq.gz ILLUMINACLIP:/home/bio/bin/Trimmomatic/adapters/TruSeq3-PE-2.fa:2:30:10 HEADCROP:14 SLIDINGWINDOW:5:20 MINLEN:130
+
+`trimmomatic PE -threads 8 -phred33 -trimlog /home/sharon/03.Trimmomatic/SduCas01_triminfo.txt /home/sharon/01.DataReady/SduCas01_R1.fastq.gz /home/sharon/01.DataReady/SduCas01_R2.fastq.gz  /home/sharon/03.Trimmomatic/SduCas01_R1_trimm.fastq.gz  /home/sharon/03.Trimmomatic/SduCas01_R1_unpair.fastq.gz  /home/sharon/03.Trimmomatic/SduCas01_R2_trimm.fastq.gz  /home/sharon/03.Trimmomatic/SduCas01_R2_unpair.fastq.gz ILLUMINACLIP:/home/bio/bin/Trimmomatic/adapters/TruSeq3-PE-2.fa:2:30:10 HEADCROP:14 SLIDINGWINDOW:5:25 MINLEN:130
 `
 PE - single end, importante especificarselo al programa.
 
 # Loop para Trimmomatic con pair-end (PE). Para más información consulta [aquí](https://hoytpr.github.io/bioinformatics-semester/materials/loop-extra/)
 
-```Javascript
-for infile in *1.fastq.gz ;     do 
-base=$(basename ${infile} 1.fastq.gz) ;     
-java -jar /opt/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 10 -phred33 ${infile} ${base}2.fastq.gz ${base}1_trim.fastq.gz ${base}1un_trim.fastq.gz ${base}2_trim.fastq.gz ${base}2un_trim.fastq.gz ILLUMINACLIP:/opt/Trimmomatic-0.39/adapters/TruSeq2-PE.fa:2:8:10:8:True HEADCROP:14 SLIDINGWINDOW:5:15 MINLEN:110 ;     
-done
-```
+`   cd /home/sharon/01.DataReady
+    for infile in *_R1.fastq.gz ;
+    do
+       base=$(basename "${infile}" _R1.fastq.gz) ;
+    trimmomatic PE -threads 8 -phred33 \
+    -trimlog /home/sharon/03.Trimmomatic/${base}_triminfo.txt \
+    ${infile} \
+    ${base}_R2.fastq.gz \
+    /home/sharon/03.Trimmomatic/${base}_R1_trimm.fastq.gz \
+    /home/sharon/03.Trimmomatic/${base}_R1_unpair.fastq.gz \
+    /home/sharon/03.Trimmomatic/${base}_R2_trimm.fastq.gz \
+    /home/sharon/03.Trimmomatic/${base}_R2_unpair.fastq.gz \
+    ILLUMINACLIP:/home/bio/bin/Trimmomatic/adapters/TruSeq3-PE-2.fa:2:30:10 \
+    HEADCROP:14 \
+    SLIDINGWINDOW:5:25 \
+    MINLEN:130 ;
+done`
 
 Se van a generar archivos con terminación _trim.fastq.gz_ (son los de interés) y _un_trim.fastq.gz_ (son reads no pareados, no son de interés para los análisis posteriores).
 
 ### 5. Visualizar la calidad de los datos limpios con FastQC
 
-`fastqc *trim.fastq.gz`
+`fastqc *trimm.fastq.gz`
 
 Nuevamente, se generan archivos .html y .zip
 
 Para mantener el orden, crear una nueva carpeta denominada _04.FastQC_limpios_ en /home/usuario/
  
-Entrar a la carpeta _03.FastQC_limpios_ y mover los .html y los .zip 
+Entrar a la carpeta _04.FastQC_limpios_ y mover los .html y los .zip 
 
-`mv /home/usuario/curso/03.Trimmomatic/*.html .`
-`mv /home/usuario/curso/03.Trimmomatic/*.zip .`
+`mv /home/sharon/03.Trimmomatic/*.html .`
+`mv /home/sharon/03.Trimmomatic/*.zip .`
 
 Mover los archivos.html del servidor a la computadora local para poder visualizarlos
 
