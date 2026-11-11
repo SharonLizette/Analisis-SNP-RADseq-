@@ -72,7 +72,8 @@ PE - single end, importante especificarselo al programa.
 
 # Loop para Trimmomatic con pair-end (PE). Para más información consulta [aquí](https://hoytpr.github.io/bioinformatics-semester/materials/loop-extra/)
 
-`   cd /home/sharon/01.DataReady
+`cd /home/sharon/01.DataReady`
+    
     for infile in *_R1.fastq.gz ;
     do
        base=$(basename "${infile}" _R1.fastq.gz) ;
@@ -88,7 +89,7 @@ PE - single end, importante especificarselo al programa.
     HEADCROP:14 \
     SLIDINGWINDOW:5:25 \
     MINLEN:130 ;
-done`
+`done`
 
 Se van a generar archivos con terminación _trim.fastq.gz_ (son los de interés) y _un_trim.fastq.gz_ (son reads no pareados, no son de interés para los análisis posteriores).
 
